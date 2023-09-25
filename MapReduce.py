@@ -8,10 +8,10 @@ from functools import partial
 
 
 def mapReduce(zero, op, f, a, b):
-    if a > b:
-        return zero
-    else:
-        return op(f(a), mapReduce(zero, op, f, a + 1, b))
+    res = zero
+    for i in range(a, b + 1) :
+        res = op(res, f(i))
+    return res
 
 sum = partial(mapReduce, 0, lambda x, y : x + y)
 product = partial(mapReduce, 1, lambda x, y : x * y)
