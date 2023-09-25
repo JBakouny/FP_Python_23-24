@@ -6,18 +6,15 @@ from functools import partial
 # fp = partial(multiply, 2, 3)
 # print(fp(4))
 
-def sum(f, a, b):
-    if a > b:
-        return 0
-    else:
-        return f(a) + sum(f, a + 1, b)
 
-def product(f, a, b):
+def mapReduce(zero, op, f, a, b):
     if a > b:
-        return 1
+        return zero
     else:
-        return f(a) * product(f, a + 1, b)
+        return op(f(a), mapReduce(zero, op, f, a + 1, b))
 
+sum = partial(mapReduce, 0, lambda x, y : x + y)
+product = partial(mapReduce, 1, lambda x, y : x * y)
 
 sumInts = partial(sum, lambda x: x)
 sumCubes = partial(sum, lambda x: x ** 3)
