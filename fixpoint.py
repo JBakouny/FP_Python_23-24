@@ -1,3 +1,4 @@
+from functools import partial
 
 tolerance = 0.0000000000000000000000000001
 
@@ -14,9 +15,9 @@ def fixed_point(f, first_guess):
     return next_guess
 
 
-def average_damp(f):
-    return lambda x: (x + f(x)) / 2
+def average_damp(f, x):
+    return (x + f(x)) / 2
 
 
 def sqrt(x):
-    return fixed_point(average_damp(lambda y: x / y), 1)
+    return fixed_point(partial(average_damp, lambda y: x / y), 1)
