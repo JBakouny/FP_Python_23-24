@@ -1,9 +1,17 @@
-from dataclasses import dataclass
 
-@dataclass
+def gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
+
+
 class Rational :
-    numer : int
-    denom : int
+    __match_args__ = ("numer", "denom")
+    def __init__(self, x, y):
+        g = gcd(x, y)
+        self.numer = x / g
+        self.denom = y / g
 
     def __add__(self, that):
         return Rational(self.numer * that.denom +
